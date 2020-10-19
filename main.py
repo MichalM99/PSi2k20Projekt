@@ -1,1 +1,2 @@
 print("witamBardziej")
+print(abc)
