@@ -1,2 +1,1 @@
-print("witamBardziej")
-print(abc)
+print("Witam")
