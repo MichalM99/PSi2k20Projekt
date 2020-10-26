@@ -1,4 +1,21 @@
 
+
+
+"""
+#Zad1
+f = open('zad1tekstlorem.txt')
+text = f.read()
+#Zad2
+imie = "Michal"
+nazwisko = "Moszczynski"
+nazwisko = nazwisko[:3]
+imie = imie[:2]
+#print("Lubię język {1} oraz {0}".format("Java", "Python"))
+print("W tekscie jest {0} liter {1}, {2} liter {3}, {4} liter {5}, {6} liter {7}".format(text.count(imie[0]), imie[0]
+                                                                                         , text.count(imie[1]), imie[1],
+                                                                                         text.count(nazwisko[1]), nazwisko[1],
+#3
+
 #3
 #Old
 print('%10s' % ('test',))
@@ -21,23 +38,6 @@ data = {'first': 'Michal', 'last': 'Moszczyński'}
 print('%(first)s %(last)s' % data)
 #New
 print('{first} {last}'.format(**data))
-
-
-"""
-#Zad1
-f = open('zad1tekstlorem.txt')
-text = f.read()
-#Zad2
-imie = "Michal"
-nazwisko = "Moszczynski"
-nazwisko = nazwisko[:3]
-imie = imie[:2]
-#print("Lubię język {1} oraz {0}".format("Java", "Python"))
-print("W tekscie jest {0} liter {1}, {2} liter {3}, {4} liter {5}, {6} liter {7}".format(text.count(imie[0]), imie[0]
-                                                                                         , text.count(imie[1]), imie[1],
-                                                                                         text.count(nazwisko[1]), nazwisko[1],
-#3
-
 #4
 print(dir("Ala ma kota, a kot ma Alicje"))
 help("Ala ma kota, a kot ma Alicje".strip())
