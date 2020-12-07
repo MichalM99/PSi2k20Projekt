@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Pokoje, Platnosci, Klienci, Rezerwacje
 
 
-class KlienciSerializer(serializers.Serializer):
+class KlienciSerializer(serializers.ModelSerializer):
     class Meta:
         model = Klienci
         fields = '__all__'
