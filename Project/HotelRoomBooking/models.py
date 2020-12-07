@@ -6,6 +6,9 @@ class Klienci(models.Model):
     imie = models.CharField(max_length=45)
     nazwisko = models.CharField(max_length=45)
     email = models.CharField(max_length=100)
+    def __str__(self):
+        text = "" + self.imie + " " + self.nazwisko
+        return text
 
 class Rezerwacje(models.Model):
     numerRezerwacji = models.IntegerField(unique=True, primary_key=True, null=False)

@@ -1,26 +1,26 @@
 from rest_framework import serializers
-from HotelRoomBooking import Pokoje, Platnosci, Rezerwacje, Klienci
+from .models import Pokoje, Platnosci, Klienci, Rezerwacje
 
 
 class KlienciSerializer(serializers.Serializer):
     class Meta:
         model = Klienci
-        fields = ['numerRezerwacji','numerPokoju','imie', 'nazwisko', 'email']
+        fields = '__all__'
 
 
-class RezerwacjeSerializer(serializers.Serializer):
+class RezerwacjeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rezerwacje
         fields = ['numerRezerwacji', 'numerPokoju', 'dataOd', 'dataDo']
 
 
-class PlatnosciSerializer(serializers.Serializer):
+class PlatnosciSerializer(serializers.ModelSerializer):
     class Meta:
         model = Platnosci
         fields = ['numerRezerwacji', 'doZaplaty', 'email']
 
 
-class PokojeSerializer(serializers.Serializer):
+class PokojeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pokoje
         fields = ['liczbaMiejsc', 'cenaNetto', 'numerPokoju']
