@@ -1,12 +1,17 @@
 from . import views
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
+from . import views
 
 
-router = routers.DefaultRouter()
-router.register(r'klienci', views.KlienciViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('klienci', views.KlienciList.as_view(), name=views.KlienciList.name),
+    path('klienci/<int:pk>', views.KlienciDetail.as_view(), name=views.KlienciDetail.name),
+    path('pokoje', views.PokojeList.as_view(), name=views.PokojeList.name),
+    path('pokoje/<int:pk>', views.PokojeDetail.as_view(), name=views.PokojeDetail.name),
+    path('rezerwacje', views.RezerwacjeList.as_view(), name=views.RezerwacjeList.name),
+    path('rezerwacje/<int:pk>', views.RezerwacjeDetail.as_view(), name=views.RezerwacjeDetail.name),
+    path('platnosci', views.PlatnosciList.as_view(), name=views.PlatnosciList.name),
+    path('platnosci/<int:pk>', views.PlatnosciDetail.as_view(), name=views.PlatnosciDetail.name),
+    path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]
