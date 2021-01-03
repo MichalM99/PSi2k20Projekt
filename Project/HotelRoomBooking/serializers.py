@@ -2,25 +2,28 @@ from rest_framework import serializers
 from .models import Pokoje, Platnosci, Klienci, Rezerwacje
 
 
-class KlienciSerializer(serializers.ModelSerializer):
+class KlienciSerializer(serializers.HyperlinkedModelSerializer):
+    rezerwacje = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='rezerwacje-detail')
     class Meta:
         model = Klienci
-        fields = ['numerRezerwacji','numerPokoju', 'imie', 'nazwisko', 'email','url']
+        fields = ['url','idKlienta', 'imie', 'nazwisko', 'email','rezerwacje']
 
 
-class RezerwacjeSerializer(serializers.ModelSerializer):
+class RezerwacjeSerializer(serializers.HyperlinkedModelSerializer):
+    #nazwaKlienta = serializers.SlugRelatedField(queryset=Klienci.objects.all(), slug_field='nazwisko')
     class Meta:
         model = Rezerwacje
-        fields = ['numerRezerwacji', 'numerPokoju', 'dataOd', 'dataDo','url']
+        fields = ['numerRezerwacji', 'numerPokoju','nazwaKlienta','dataOd', 'dataDo','url']
 
 
-class PlatnosciSerializer(serializers.ModelSerializer):
+class PlatnosciSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Platnosci
-        fields = ['numerRezerwacji', 'doZaplaty', 'email','url']
+        fields = ['idPlatnosci','doZaplaty', 'email','idRezerwacji','url']
 
 
-class PokojeSerializer(serializers.ModelSerializer):
+class PokojeSerializer(serializers.HyperlinkedModelSerializer):
+    rezerwacje = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='rezerwacje-detail')
     class Meta:
         model = Pokoje
-        fields = ['liczbaMiejsc', 'cenaNetto', 'numerPokoju','url']
+        fields = ['url','numerPokoju','liczbaMiejsc','cenaNetto','rezerwacje']

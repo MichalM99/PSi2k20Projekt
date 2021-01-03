@@ -26,7 +26,7 @@ class PlatnosciList(generics.ListCreateAPIView):
 class PlatnosciDetail(generics.RetrieveDestroyAPIView):
     queryset = Platnosci.objects.all()
     serializer_class = PlatnosciSerializer
-    name = 'Platnosci-detail'
+    name = 'platnosci-detail'
 
 class RezerwacjeList(generics.ListCreateAPIView):
     queryset = Rezerwacje.objects.all()
@@ -41,12 +41,12 @@ class RezerwacjeDetail(generics.RetrieveDestroyAPIView):
 class PokojeList(generics.ListCreateAPIView):
     queryset = Pokoje.objects.all()
     serializer_class = PokojeSerializer
-    name = 'Pokoje-list'
+    name = 'pokoje-list'
 
 class PokojeDetail(generics.RetrieveDestroyAPIView):
     queryset = Pokoje.objects.all()
     serializer_class = PokojeSerializer
-    name = 'Pokoje-detail'
+    name = 'pokoje-detail'
 
 
 class ApiRoot(generics.GenericAPIView):
