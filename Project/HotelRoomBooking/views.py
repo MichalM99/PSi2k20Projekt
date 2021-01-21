@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .serializers import KlienciSerializer, RezerwacjeSerializer, PokojeSerializer, PlatnosciSerializer
+from .serializers import KlienciSerializer, RezerwacjeSerializer, PokojeSerializer, PlatnosciSerializer, UserSerializer
 from .models import Klienci, Pokoje, Platnosci, Rezerwacje
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import permissions
 from django_filters import AllValuesFilter, DateFilter, FilterSet, NumberFilter
+from django.contrib.auth.models import User
 
 
 
@@ -17,11 +19,13 @@ class KlienciList(generics.ListCreateAPIView):
     filter_fields=['imie','nazwisko']
     search_fields=['imie', 'nazwisko','idKlienta']
     ordering_fields = ['imie', 'nazwisko', 'idKlienta']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class KlienciDetail(generics.RetrieveDestroyAPIView):
+class KlienciDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Klienci.objects.all()
     serializer_class = KlienciSerializer
     name = 'klienci-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class PlatnosciFilter(FilterSet):
     from_doZaplaty = NumberFilter(field_name='doZaplaty', lookup_expr='gte', label='Do zapłaty od: ')
@@ -39,11 +43,15 @@ class PlatnosciList(generics.ListCreateAPIView):
     search_fields=['idRezerwacji', 'email']
     ordering_fields = ['idRezerwacji','doZaplaty']
     filter_class = PlatnosciFilter
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(wlasciciel=self.request.user)
 
-class PlatnosciDetail(generics.RetrieveDestroyAPIView):
+class PlatnosciDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Platnosci.objects.all()
     serializer_class = PlatnosciSerializer
     name = 'platnosci-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class RezerwacjeFilter(FilterSet):
     from_dataOd = DateFilter(field_name='dataOd', lookup_expr='gte', label='Data rozpoczęcia pobytu od: ')
@@ -63,11 +71,13 @@ class RezerwacjeList(generics.ListCreateAPIView):
     search_fields=['dataOd', 'dataDo','nazwaKlienta','numerRezerwacji']
     ordering_fields = ['nazwaKlienta','numerPokoju']
     filter_class = RezerwacjeFilter
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class RezerwacjeDetail(generics.RetrieveDestroyAPIView):
+class RezerwacjeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rezerwacje.objects.all()
     serializer_class = RezerwacjeSerializer
     name = 'rezerwacje-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class PokojeFilter(FilterSet):
@@ -85,11 +95,30 @@ class PokojeList(generics.ListCreateAPIView):
     filter_class = PokojeFilter
     search_fields=['numerPokoju','liczbaMiejsc']
     ordering_fields = ['cenaNetto','liczbaMiejsc','numerPokoju']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(wlasciciel=self.request.user)
 
-class PokojeDetail(generics.RetrieveDestroyAPIView):
+class PokojeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pokoje.objects.all()
     serializer_class = PokojeSerializer
     name = 'pokoje-detail'
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-list'
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-detail'
+
+
+
+
+
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -99,5 +128,5 @@ class ApiRoot(generics.GenericAPIView):
                          'pokoje': reverse(PokojeList.name, request=request),
                          'platnosci': reverse(PlatnosciList.name, request=request),
                          'rezerwacje': reverse(RezerwacjeList.name, request=request),
-
+                         'Uzytkownicy': reverse(UserList.name, request=request),
                          })

@@ -28,11 +28,13 @@ class Platnosci(models.Model):
     idRezerwacji = models.ForeignKey('Rezerwacje', on_delete=models.CASCADE)
     doZaplaty = models.FloatField()
     email = models.CharField(max_length=100)
+    wlasciciel = models.ForeignKey('auth.User', related_name='PlatnosciOwn', on_delete=models.CASCADE)
 
 class Pokoje(models.Model):
     numerPokoju = models.IntegerField(primary_key=True, null=False, unique=True)
     liczbaMiejsc = models.IntegerField(null=False)
     cenaNetto = models.FloatField(null=False)
+    wlasciciel = models.ForeignKey('auth.User', related_name='PokojeOwn', on_delete=models.CASCADE)
     def __str__(self):
         text = "" + str(self.numerPokoju) + " " + str(self.liczbaMiejsc) + "osobowy " + str(self.cenaNetto) + "pln/doba"
         return text
